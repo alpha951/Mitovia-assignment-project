@@ -1,0 +1,37 @@
+﻿@model List<Mitovia.Models.ValueDial>;
+
+<h1>Measures List</h1>
+
+@{
+
+    if (Model.Count == 0)
+    {
+        <p>No Measure found</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">OrgID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">LastUpdatedDate</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var valueDials in Model)
+                {
+                    <tr>
+                        <td>@valueDials.ID</td>
+                        <td>@valueDials.OrgID</td>
+                        <td>@valueDials.Name</td>
+                        <td>@valueDials.Description</td>
+                        <td>@valueDials.LastUpdatedDate</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
