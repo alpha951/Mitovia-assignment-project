@@ -1,50 +1,8 @@
-﻿@* This is razor page with bootstrap  *@
-
-@* @model List<Mitovia.Models.Measure>;
-
-<h1>Measures List</h1>
-
-@{
-
-    if (Model.Count == 0)
-    {
-        <p>No Measure found</p>
-    }
-    else
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">OrgID</th>
-                    <th scope="col">EntityID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">DisplayName</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">LastUpdatedDate</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var measure in Model)
-                {
-                    <tr>
-                        <td>@measure.ID</td>
-                        <td>@measure.OrgID</td>
-                        <td>@measure.EntityID</td>
-                        <td>@measure.Name</td>
-                        <td>@measure.DisplayName</td>
-                        <td>@measure.Description</td>
-                        <td>@measure.LastUpdatedDate</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-} *@
-
+﻿
 @* This is razor page with DevExtreme  *@
 
-@model List<Mitovia.Models.Measure>
+@model List<Mitovia.Models.MeasureView>
+
 
 <h1>Measures List</h1>
 
@@ -70,10 +28,33 @@
                     dataField: "displayName", caption: "DisplayName", 
                 },
                 {
-                    dataField: "description", caption: "Description", width: 500
+                    dataField: "valueDialID",
+                    caption: "ValueDialID",
                 },
                 {
-                    dataField: "lastUpdatedDate", caption: "Last Updated", 
+                    dataField: "valueDialName",
+                    caption: "ValueDialName",
+                },
+                {
+                    dataField: "description", caption: "Description", width: 400,
+                    cellTemplate: function (container, options) {
+                        $("<div>")
+                            .append($("<span>").text(options.value.substr(0, 50))) // Display the first 50 characters
+                            .append(
+                                $("<a>")
+                                    .text("  more...") // Ellipsis indicating there's more
+                                    .attr("href", "#")
+                                    .on("dxclick", function () {
+                                        // Show a pop-up with the complete text when the ellipsis is clicked
+                                        DevExpress.ui.notify(options.value, "info", 3000);
+                                    })
+                            )
+                            .appendTo(container);
+                    }
+
+                },
+                {
+                    dataField: "lastUpdatedDateString", caption: "Last Updated",
                 },
 
                 // Add other columns as needed

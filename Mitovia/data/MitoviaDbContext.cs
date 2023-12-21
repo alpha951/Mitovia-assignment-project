@@ -13,8 +13,6 @@ namespace Mitovia.data
 
         public DbSet<ValueDial> ValueDial { get; set; }
 
-        public DbSet<Employee> Employees { get; set; }
-
     }
 
 }
