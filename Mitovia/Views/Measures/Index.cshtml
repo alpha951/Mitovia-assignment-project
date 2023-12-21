@@ -30,13 +30,14 @@
                 {
                     dataField: "valueDialID",
                     caption: "ValueDialID",
+                    width:90
                 },
                 {
                     dataField: "valueDialName",
                     caption: "ValueDialName",
                 },
                 {
-                    dataField: "description", caption: "Description", width: 400,
+                    dataField: "description", caption: "Description", width: 380,
                     cellTemplate: function (container, options) {
                         $("<div>")
                             .append($("<span>").text(options.value.substr(0, 50))) // Display the first 50 characters
@@ -54,8 +55,25 @@
 
                 },
                 {
-                    dataField: "lastUpdatedDateString", caption: "Last Updated",
+                    dataField: "lastUpdatedDateString", caption: "Last Updated", width : 100
                 },
+
+                {
+                    dataField: "edit",
+                    caption: "Edit",
+                    width: 100,
+                    cellTemplate: function (container, options) {
+                        $("<a>")
+                            .text("Edit")
+                            .on("dxclick", function () {
+                                var editedItem = options.data;
+                                var editUrl = "/Measures/View/" + editedItem.id;
+                                window.location.href = editUrl;
+                            })
+                            .appendTo(container);
+                    }
+                }
+
 
                 // Add other columns as needed
             ],

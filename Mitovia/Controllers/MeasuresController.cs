@@ -53,7 +53,11 @@ namespace Mitovia.Controllers
 
         public async Task<IActionResult> Add(AddMeasure model)
         {
-
+            var existingMeasure = await dbContext.Measure.FirstOrDefaultAsync(x => x.Name == model.Name);
+            if(existingMeasure != null)
+            {
+                ModelState.AddModelError("Name", "Measure with this name already exists");
+            }
             var measure = new Measure
             {
                 Name = model.Name,
@@ -67,5 +71,59 @@ namespace Mitovia.Controllers
 
             return RedirectToAction("Add");   
         }
+
+        [HttpGet]
+
+        public async Task<IActionResult> View(int id)
+        {
+            var measure = await dbContext.Measure.FirstOrDefaultAsync(x => x.ID == id);
+
+            var viewModel = new UpdateMeasure()
+            {
+                ID = measure.ID,
+                Name = measure.Name,
+                DisplayName = measure.DisplayName,
+                Description = measure.Description,
+                ValueDialID = measure.ValueDialID,
+            };
+
+            return View("View", viewModel);
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Update(UpdateMeasure model)
+        {
+            var measure = await dbContext.Measure.FirstOrDefaultAsync(x => x.ID == model.ID);
+            if (measure == null)
+            {
+                return RedirectToAction("Index");
+            }
+            measure.Name = model.Name;
+            measure.DisplayName = model.DisplayName;
+            measure.Description = model.Description;
+            measure.ValueDialID = model.ValueDialID;
+
+            // Save changes to the database
+            await dbContext.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Delete(UpdateMeasure model)
+        {
+            var measure = await dbContext.Measure.FirstOrDefaultAsync(x => x.ID == model.ID);
+            if (measure == null)
+            {
+                return RedirectToAction("Index");
+            }
+            dbContext.Measure.Remove(measure);
+            await dbContext.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+
     }
 }
