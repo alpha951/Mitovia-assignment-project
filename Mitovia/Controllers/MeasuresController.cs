@@ -42,5 +42,30 @@ namespace Mitovia.Controllers
 
             return View(measuresWithDialNames);
         }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Add(AddMeasure model)
+        {
+
+            var measure = new Measure
+            {
+                Name = model.Name,
+                DisplayName = model.DisplayName ?? model.Name,
+                Description = model.Description ?? "No Description Present",
+                ValueDialID = model.ValueDialID
+            };
+
+            dbContext.Measure.Add(measure);
+            await dbContext.SaveChangesAsync();
+
+            return RedirectToAction("Add");   
+        }
     }
 }
