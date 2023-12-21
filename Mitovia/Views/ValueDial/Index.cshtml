@@ -1,6 +1,6 @@
-﻿@model List<Mitovia.Models.ValueDial>;
+﻿@* @model List<Mitovia.Models.ValueDial>;
 
-<h1>Measures List</h1>
+<h1>ValueDial List</h1>
 
 @{
 
@@ -34,4 +34,54 @@
             </tbody>
         </table>
     }
-}
+} *@
+
+@model List<Mitovia.Models.ValueDial>
+
+<h1>ValueDial List</h1>
+
+<div id="dataGrid"></div>
+
+<script>
+    // Convert the C# model to a JavaScript variable
+    var valueDial = @Html.Raw(Json.Serialize(Model));
+
+    // Initialize DevExtreme DataGrid
+    $(function () {
+        $("#dataGrid").dxDataGrid({
+            dataSource: valueDial,
+            columns: [
+                // Define columns based on your model properties
+                {
+                    dataField: "id", caption: "ID", groupIndex: 0,
+                },
+                {
+                    dataField: "name", caption: "Name"
+                },
+                {
+                    dataField: "abbreviation", caption: "Abbreviation",
+                },
+
+                {
+                    dataField: "description", caption: "Description", width: 500
+                },
+                {
+                    dataField: "lastUpdatedDate", caption: "Last Updated",
+                },
+
+                // Add other columns as needed
+            ],
+            // Other DataGrid configurations as needed
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            columnAutoWidth: true,
+            columnChooser: { enabled: true },
+            filterRow: { visible: true },
+            searchPanel: { visible: true },
+            groupPanel: { visible: true },
+            columnFixing: { enabled: true },
+
+
+        });
+    });
+</script>

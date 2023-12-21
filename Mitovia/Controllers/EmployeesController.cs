@@ -19,7 +19,7 @@ namespace Mitovia1.Controllers
         public async Task<IActionResult> Index()
         {
             var employees = await dbContext.Employees.ToListAsync();
-            return View(employees);
+            return View();
         }
 
     }

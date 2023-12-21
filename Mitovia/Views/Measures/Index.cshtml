@@ -1,4 +1,6 @@
-﻿@model List<Mitovia.Models.Measure>;
+﻿@* This is razor page with bootstrap  *@
+
+@* @model List<Mitovia.Models.Measure>;
 
 <h1>Measures List</h1>
 
@@ -38,4 +40,55 @@
             </tbody>
         </table>
     }
-}
+} *@
+
+@* This is razor page with DevExtreme  *@
+
+@model List<Mitovia.Models.Measure>
+
+<h1>Measures List</h1>
+
+<div id="dataGrid"></div>
+
+<script>
+    // Convert the C# model to a JavaScript variable
+    var measuresData = @Html.Raw(Json.Serialize(Model));
+
+    // Initialize DevExtreme DataGrid
+    $(function () {
+        $("#dataGrid").dxDataGrid({
+            dataSource: measuresData,
+            columns: [
+                // Define columns based on your model properties
+                {
+                    dataField: "id", caption: "ID", groupIndex: 0,
+                },
+                {
+                    dataField: "name", caption: "Name"
+                },
+                {
+                    dataField: "displayName", caption: "DisplayName", 
+                },
+                {
+                    dataField: "description", caption: "Description", width: 500
+                },
+                {
+                    dataField: "lastUpdatedDate", caption: "Last Updated", 
+                },
+
+                // Add other columns as needed
+            ],
+            // Other DataGrid configurations as needed
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            columnAutoWidth: true,
+            columnChooser: { enabled: true },
+            filterRow: { visible: true },
+            searchPanel: { visible: true },
+            groupPanel: { visible: true },
+            columnFixing: { enabled: true },
+            
+
+        });
+    });
+</script>
