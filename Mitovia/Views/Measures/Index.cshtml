@@ -73,9 +73,6 @@
                             .appendTo(container);
                     }
                 }
-
-
-                // Add other columns as needed
             ],
             // Other DataGrid configurations as needed
             allowColumnReordering: true,
@@ -86,7 +83,15 @@
             searchPanel: { visible: true },
             groupPanel: { visible: true },
             columnFixing: { enabled: true },
-            
+            scrolling: {
+                useNative: false,
+                scrollByContent: true,
+                scrollByThumb: true,
+                showScrollbar: "onHover" // or "onScroll" | "always" | "never"
+            },
+              sorting: {
+                mode: "single" // or "multiple" | "none"
+            }
 
         });
     });

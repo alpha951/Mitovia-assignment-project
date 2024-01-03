@@ -15,7 +15,10 @@ namespace Mitovia.Controllers
         {
             this.dbContext = dbContext;
         }
-
+        
+        /*
+         *          Get all Measures
+         */
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -42,21 +45,31 @@ namespace Mitovia.Controllers
 
             return View(measuresWithDialNames);
         }
-
+        
+        /*
+         *  Get Add Measure Page 
+         */
         [HttpGet]
         public IActionResult Add()
         {
             return View();
         }
 
+        /*
+         *  Add a NEW Measure 
+         */
         [HttpPost]
 
         public async Task<IActionResult> Add(AddMeasure model)
         {
+            /*
+             *   Measure Name should be unique 
+             */
             var existingMeasure = await dbContext.Measure.FirstOrDefaultAsync(x => x.Name == model.Name);
             if(existingMeasure != null)
             {
                 ModelState.AddModelError("Name", "Measure with this name already exists");
+                return RedirectToAction("Index");
             }
             var measure = new Measure
             {
@@ -71,13 +84,16 @@ namespace Mitovia.Controllers
 
             return RedirectToAction("Add");   
         }
-
+        
+        /*
+         *  View a Measure
+         */
         [HttpGet]
 
         public async Task<IActionResult> View(int id)
         {
             var measure = await dbContext.Measure.FirstOrDefaultAsync(x => x.ID == id);
-
+            
             var viewModel = new UpdateMeasure()
             {
                 ID = measure.ID,
@@ -89,7 +105,10 @@ namespace Mitovia.Controllers
 
             return View("View", viewModel);
         }
-
+        
+        /*
+         *  Update a Measure 
+         */
         [HttpPost]
 
         public async Task<IActionResult> Update(UpdateMeasure model)
@@ -109,7 +128,10 @@ namespace Mitovia.Controllers
 
             return RedirectToAction("Index");
         }
-
+        
+        /*
+         *  Delete a Measure
+         */
         [HttpPost]
 
         public async Task<IActionResult> Delete(UpdateMeasure model)
